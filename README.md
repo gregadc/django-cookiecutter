@@ -1,0 +1,2 @@
+# django-cookiecutter
+django-cookiecutter
