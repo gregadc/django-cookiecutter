@@ -1,0 +1,31 @@
+{% extends "base.html" %}
+{% load i18n static %}
+
+{% block navbar %}
+    {% include "navbar.html" %}
+{% endblock navbar %}
+
+{% block content %}
+
+    <div class="container">
+        <div class="d-flex justify-content-center">
+            <div class="profile_card p-3">
+                <div class="d-flex align-items-center">
+                    <div class="image"> 
+                        <img src="{{ user.avatar.url }}" class="rounded mb-3" width="155"> 
+                        <a href="{% url "user-update-view" user.id  %}">Update</a>
+                    </div>
+                    <div class="ml-3 w-100">
+                        <h4 class="mb-0 mt-0">{{ user.username | capfirst }}</h4>
+                        <div class="p-3 mt-1 bg-primary d-flex justify-content-between rounded text-white stats">
+                            <div class="d-flex flex-column"> <span class="articles">Sex</span> <span class="number1">{{ user.sex }}</span> </div>
+                            <div class="d-flex flex-column"> <span class="followers">Email</span> <span class="number2">{{ user.email }}</span> </div>
+                            <div class="d-flex flex-column"> <span class="rating">Search</span> <span class="number3">{{ user.search }}</span> </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+
+{% endblock content %}

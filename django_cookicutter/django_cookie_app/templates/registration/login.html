@@ -1,0 +1,24 @@
+{% extends "base.html" %}
+{% load i18n static %}
+
+{% block navbar %}{% endblock navbar %}
+
+{% block content %} 
+    <form class="form-signin" method="post">
+      {% csrf_token %}
+      <img class="mb-6" src="{% static "img/ice1.png" %}" alt="" width="250" height="200">
+
+      {% for field in form %}
+        <div class="form-group  materail_input_block">
+            {{ field.errors }}
+            {{ field }}
+         </div>
+        {% if field.help_text %}
+            <p class="help">{{ field.help_text|safe }}</p>
+        {% endif %}
+      {% endfor %}
+
+      <button class="btn btn-lg btn-primary btn-block mt-4 mb-3" type="submit">Sign in</button>
+      <a href="{% url "user-create-view" %}">Register</a>
+    </form>
+{% endblock content %}

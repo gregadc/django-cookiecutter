@@ -1,0 +1,49 @@
+{% extends "base.html" %}
+{% load i18n static %}
+
+{% block content %}
+
+<div class="bucket">
+    <h1>Bucket in progress {{ last_percentage }}</h1>
+    <div class="card">
+	<div class="progress" style="height: 20px;">
+	  <div class="progress-bar progress-bar-striped bg-success" role="progressbar" style="width: {{ model.percentage_data }}%;" aria-valuenow="25" aria-valuemin="0" aria-valuemax="100">
+	  </div>
+	</div>
+      <div class="card-body">
+        <h5 class="card-title">{{ verbose_name }}</h5>
+      </div>
+      <ul class="list-group list-group-flush">
+        <li class="list-group-item"><strong>{% trans "Date" %} : </strong> {{ model.date }}</li>
+        <li class="list-group-item"><strong>{% trans "Available balls" %} : </strong> {{ model.total_ball }}</li>
+        <li class="list-group-item"><strong>{% trans "Number of times fill" %} : </strong> {{ model.number_time_fill }}</li>
+        <li class="list-group-item"><button id="button-action"  type="button" data-name-order="{{ default_name }}"  class="btn btn-warning">Reload the bucket</button></li>
+      </ul>
+    </div>
+</div>
+
+<h2>Management history</h2>
+<table class="table table-striped">
+  <thead>
+    <tr>
+      <th scope="col">Date</th>
+      <th scope="col">Percentage of current bucket</th>
+      <th scope="col">Number of times fill</th>
+      <th scope="col">Available balls</th>
+    </tr>
+  </thead>
+  <tbody>
+    {% for article in object_list %}
+    	<tr>
+            <th scope="row">{{ article.date }}</th>
+            <td>{{ article.percentage_data}}</td>
+            <td>{{ article.number_time_fill}}</td>
+            <td>{{ article.total_ball }}</td>
+        </tr>
+    {% empty %}
+        <tr>Y'a plus de glace, on a tout mangé.</tr>
+    {% endfor %}
+  </tbody>
+</table>
+ 
+{% endblock content %}

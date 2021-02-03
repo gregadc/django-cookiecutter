@@ -1,0 +1,41 @@
+<header>
+      <nav class="navbar navbar-expand-md navbar-dark fixed-top bg-dark">
+          <a class="navbar-brand" href="{% url "home" %}">Home</a>
+        <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbarCollapse" aria-controls="navbarCollapse" aria-expanded="false" aria-label="Toggle navigation">
+          <span class="navbar-toggler-icon"></span>
+        </button>
+        <div class="collapse navbar-collapse" id="navbarCollapse">
+           <ul class="navbar-nav mr-auto">
+	     <li class="nav-item active">
+          	<a class="nav-link" href="{% url "order-list-view" %}">Orders<span class="sr-only">(current)</span></a>
+             </li>
+               <div class="btn-group">
+                 <button type="button" class="btn btn-secondary dropdown-toggle mr-1" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
+                     stock
+                 </button>
+                 <div class="dropdown-menu">
+                    <a class="dropdown-item" href="{% url "choco-orange-view" %}"> Chocolate orange</a>
+                    <a class="dropdown-item" href="{% url "mint-choco-view" %}"> Mint chocolate</a>
+                    <a class="dropdown-item" href="{% url "syrup-view" %}"> Syrup</a>
+                    <a class="dropdown-item" href="{% url "vani-stra-choc-view" %}"> Vanilla strawberry chocolate</a>
+                    <a class="dropdown-item" href="{% url "rasp-whit-choc-view" %}"> Raspberry white chocolate</a>
+                 </div>
+               </div>
+	     <li>
+
+	     </li> 
+           </ul>
+	   <div class="btn-group">
+	     <button type="button" class="btn btn-primary dropdown-toggle mr-1" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
+                 welcome {{ user.username | capfirst}}
+	     </button>
+	     <div class="dropdown-menu">
+                 <a class="dropdown-item" href="{% url "user-detail-view" user.id %}">user informations</a>
+                 <!--<a class="dropdown-item" href="{{ object.get_absolute_url }}">user informations</a>-->
+	     </div>
+	   </div>
+
+           <a href="{% url "logout" %}" class="btn btn-outline-success my-2 my-sm-0">Logout</a>
+        </div>
+      </nav>
+</header>

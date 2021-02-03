@@ -1,0 +1,47 @@
+{% extends "base.html" %}
+{% load i18n static %}
+
+{% block content %}
+
+<div class="text-center myform">
+<div class="card">
+    <div class="row icecream_balls">
+	{%if  object.raspberry.ball_bought %}
+      	    <div class="column">
+	        <img src="{% static "img/strawberry-vanille-chocolate.png" %}" alt="" style="width:100px">
+            </div>
+        {% endif %}
+	{%if  object.choco_oran.ball_bought %}
+      	    <div class="column">
+	        <img src="{% static "img/chocolat-orange.png" %}" alt="" style="width:100px">
+            </div>
+        {% endif %}
+	{%if  object.mint_choco.ball_bought %}
+      	    <div class="column">
+	        <img src="{% static "img/mint-chocolat.png" %}" alt="" style="width:100px">
+            </div>
+        {% endif %}
+	{%if  object.vanilla.ball_bought %}
+      	    <div class="column">
+	        <img src="{% static "img/white-chocolate-raspberry.png" %}" alt="" style="width:100px">
+            </div>
+        {% endif %}
+	{%if  object.syrup.ball_bought %}
+      	    <div class="column">
+	        <img src="{% static "img/maple-walnut.png" %}" alt="" style="width:100px">
+            </div>
+        {% endif %}
+
+    </div>
+  <div class="card-body">
+      <h6 class="card-title"><strong>Price : </strong>{{ object.price }} €</h6>
+  </div>
+  
+  <ul class="list-group list-group-flush">
+      <li class="list-group-item"><strong>{% trans "Number of ball" %} : </strong> {{ object.count_ball }}</li>
+      <li class="list-group-item"><strong>{% trans "Date" %} : </strong> {{ object.date }}</li>
+      <li class="list-group-item"><strong>{% trans "Code" %} : </strong> {{ object.code }}</li>
+  </ul>
+</div>
+</div>
+{% endblock content %}

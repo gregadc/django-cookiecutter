@@ -1,0 +1,82 @@
+{% extends "base.html" %}
+{% load i18n static %}
+
+{% block content %}
+    <div class="text-center">
+  <img class="rounded logo" src="{% static "img/ice1.png" %}" width="30%"/>
+</div>
+
+<div class="text-center myform">
+    <main role="main">
+        <div class="jumbotron">
+          <div class="col-sm-8 mx-auto">
+            <p>Select your ice cream and enjoy yourself ;)</p>
+            <form method="post" action="" class="ajax_form">
+                {% csrf_token %}
+		<div>
+		    <h2 class="price"></h2>
+		</div>
+		<h2>Chocolat orange</h2>
+	       <div class="input-group mb-3">
+                    <button type="button" class="choco-minus btn btn-success"  data-type="minus" data-field="">
+                        <strong>-</strong>
+                    </button>
+                    <label for="{{ form.choco.id_for_label }}"></label>
+                    {{ form.choco }}
+                    <button type="button" class="choco-plus btn btn-danger" data-type="plus" data-field="">
+                        <strong>+</strong>
+                    </button>
+		</div>
+		<h2>Mint chocolat</h2>
+	       <div class="input-group mb-3">
+                    <button type="button" class="mint-minus btn btn-success"  data-type="minus" data-field="">
+                        <strong>-</strong>
+                    </button>
+                    <label for="{{ form.mint.id_for_label }}"></label>
+                    {{ form.mint }}
+                    <button type="button" class="mint-plus btn btn-danger" data-type="plus" data-field="">
+                        <strong>+</strong>
+                    </button>
+		</div>
+		<h2>Mapple syrup</h2>
+	       <div class="input-group mb-3">
+                    <button type="button" class="syrup-minus btn btn-success"  data-type="minus" data-field="">
+                        <strong>-</strong>
+                    </button>
+                    <label for="{{ form.syrup.id_for_label }}"></label>
+                    {{ form.syrup }}
+                    <button type="button" class="syrup-plus btn btn-danger" data-type="plus" data-field="">
+                        <strong>+</strong>
+                    </button>
+		</div>
+		<h2>Vanilla chocolat</h2>
+	       <div class="input-group mb-3">
+                    <button type="button" class="vanilla-minus btn btn-success"  data-type="minus" data-field="">
+                        <strong>-</strong>
+                    </button>
+                    <label for="{{ form.vanilla.id_for_label }}"></label>
+                    {{ form.vanilla }}
+                    <button type="button" class="vanilla-plus btn btn-danger" data-type="plus" data-field="">
+                        <strong>+</strong>
+                    </button>
+		</div>
+		<h2>Raspberry chocolat</h2>
+	       <div class="input-group mb-3">
+                    <button type="button" class="raspberry-minus btn btn-success"  data-type="minus" data-field="">
+                        <strong>-</strong>
+                    </button>
+                    <label for="{{ form.raspberry.id_for_label }}"></label>
+                    {{ form.raspberry }}
+                    <button type="button" class="raspberry-plus btn btn-danger" data-type="plus" data-field="">
+                        <strong>+</strong>
+                    </button>
+		</div>
+	      <button type="submit" class="btn btn-primary">Place your order</button>
+    	    </form>
+          </div>
+        </div>
+    </main>
+</div>
+
+{% endblock content %}
+

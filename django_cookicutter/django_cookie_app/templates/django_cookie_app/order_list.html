@@ -1,0 +1,30 @@
+{% extends "base.html" %}
+{% load i18n static %}
+
+{% block content %}
+
+<h1>All orders</h1>
+<table class="table table-striped">
+  <thead>
+    <tr>
+      <th scope="col">Date</th>
+      <th scope="col">Code</th>
+      <th scope="col">Price</th>
+      <th scope="col">Number of ball</th>
+    </tr>
+  </thead>
+  <tbody>
+    {% for article in object_list %}
+    	<tr>
+            <th scope="row">{{ article.date }}</th>
+            <td><a href="{% url "order-detail-view" article.id %}">{{ article.code }}</a></td>
+            <td>{{ article.price}}</td>
+            <td>{{ article.count_ball }}</td>
+        </tr>
+    {% empty %}
+        <tr>Aller commande une bonne glace !</tr>
+    {% endfor %}
+  </tbody>
+</table>
+ 
+{% endblock content %}
