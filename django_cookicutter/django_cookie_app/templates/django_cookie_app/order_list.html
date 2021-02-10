@@ -14,12 +14,12 @@
     </tr>
   </thead>
   <tbody>
-    {% for article in object_list %}
+    {% for order in order_list %}
     	<tr>
-            <th scope="row">{{ article.date }}</th>
-            <td><a href="{% url "order-detail-view" article.id %}">{{ article.code }}</a></td>
-            <td>{{ article.price}}</td>
-            <td>{{ article.count_ball }}</td>
+            <th scope="row">{{ order.date }}</th>
+            <td><a href="{% url "order-detail-view" order.id %}">{{ order.code }}</a></td>
+            <td>{{ order.price}}</td>
+            <td>{{ order.count_ball }}</td>
         </tr>
     {% empty %}
         <tr>Aller commande une bonne glace !</tr>

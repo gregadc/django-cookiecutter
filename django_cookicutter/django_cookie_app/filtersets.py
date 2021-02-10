@@ -30,6 +30,7 @@ class OrderFilter(FilterSet):
     class Meta:
         model = models.Order
         fields = [
-            'date'
+            'date',
+            'code',
         ]
 

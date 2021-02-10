@@ -1,8 +1,9 @@
 from __future__ import unicode_literals
 import uuid
 
-from django.db import models
+from django.core.files.storage import FileSystemStorage
 from django.contrib.auth import models as auth_models
+from django.db import models
 from django.urls import reverse
 from django.utils.translation import ugettext_lazy as _
 from django.core.validators import MinValueValidator
@@ -14,13 +15,14 @@ GENDER_IDENTITY = (
     ('Man', _('Man')),
     ('Woman', _('Woman'))
 )
+fs = FileSystemStorage(location='/media/users')
 
 
 class CustomUser(auth_models.AbstractUser):
     """
         CustomUser class
     """
-    avatar = models.ImageField(default='user.png')
+    avatar = models.ImageField(storage=fs, default='user.png')
     sex = models.CharField(
         max_length=10,
         null=True,
@@ -33,14 +35,17 @@ class CustomUser(auth_models.AbstractUser):
         blank=True,
         choices=GENDER_IDENTITY,
         verbose_name=_("Search gender"))
+
     objects = querysets.UserCookieManager()
 
     class Meta:
         app_label = 'django_cookie_app'
 
+    def ___str__(self):
+        return self.username
+
     def get_absolute_url(self):
         return reverse('user-detail-view', args=[self.id])
-        #return reverse('user-detail-view', kwargs={'pk': int(self.id)})
 
 
 class BasePerfume(models.Model):
@@ -48,7 +53,10 @@ class BasePerfume(models.Model):
         BasePerfume class
     """
     date = models.DateTimeField(verbose_name=_("Date"))
-    total_ball = models.IntegerField(default=40, validators=[MinValueValidator(40)])
+    total_ball = models.IntegerField(
+        default=40,
+        validators=[MinValueValidator(40)]
+    )
     number_time_fill = models.IntegerField()
     percentage = models.FloatField()
     ball_bought = models.IntegerField()
@@ -70,6 +78,8 @@ class ChocoOrange(BasePerfume):
     """
         ChocoOrange class
     """
+    # verbose en general pour les foreign, manytomany etc, et pas la peine de mettre first letter en maj
+    # car django le fait deja
     perfume = models.CharField(
         max_length=35,
         default="choc-oran",
@@ -216,8 +226,6 @@ class Order(models.Model):
         verbose_name=_("Is last")
     )
 
-    #inspect_order = reverse('rest:order-inspect')
-
     objects = querysets.OrderQueryset.as_manager()
 
     def __str__(self):
@@ -227,4 +235,4 @@ class Order(models.Model):
         """
             get_absolute_url method
         """
-        return reverse('order-detail-view', args=[self.id])
+        return reverse('order-detail-view', args=[self.pk])

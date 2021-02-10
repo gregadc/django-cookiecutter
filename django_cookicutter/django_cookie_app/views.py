@@ -2,13 +2,14 @@ from django.contrib.auth.mixins import LoginRequiredMixin
 from django.contrib.auth.views import LoginView, LogoutView
 from django.contrib import messages
 from django.contrib.messages.views import SuccessMessageMixin
+from django.http import HttpResponseForbidden
 from django.shortcuts import render, redirect
 from django.urls import reverse_lazy as reverse
 from django.views.generic import CreateView
 from django.views import View
 from django.views.generic.list import ListView
 from django.views.generic.detail import DetailView
-from django.views.generic.edit import UpdateView
+from django.views.generic.edit import UpdateView, FormMixin
 
 from django_cookie_app.forms import (
     SignUpForm,
@@ -21,7 +22,7 @@ from django_cookie_app import models
 from django_cookie_app import filtersets
 
 
-class HomeView(LoginRequiredMixin, View):
+class HomeView(LoginRequiredMixin, FormMixin, View):
     """
         HomeView
     """
@@ -29,25 +30,23 @@ class HomeView(LoginRequiredMixin, View):
     form_class = ChoicePerfumeForm
     model = models.Order
 
-    def form_valid(self, form):
-        return super(HomeView).form_valid(form)
+    def get_success_url(self):
+        return reverse('order-detail-view', args=[self.pk])
 
-    """
-        def get_queryset(self):
-        qs = super().get_queryset()
-        qs = qs.filter(sex=self.request.user.search)
-        return qs
-    """
-
-    def get(self, request):
+    def get(self, request, *args, **kwargs):
         """
-            get method
+            Get method
         """
-        form = ChoicePerfumeForm(data=request.POST)
+        if not request.user.is_authenticated:
+            return HttpResponseForbidden()
+        form = self.get_form()
+        #form = ChoicePerfumeForm(data=request.POST)
         if form.is_valid():
             return render(request, self.template_name, {'form': form})
         return render(request, self.template_name, {'form': form})
 
+    def form_valid(self, form):
+        return super(HomeView).form_valid(form)
 
 
 class UserDetailView(LoginRequiredMixin, DetailView):
@@ -146,9 +145,11 @@ class OrderListView(ListView):
     """
         OrderListView
     """
-    model = models.Order
+    queryset = models.Order.objects.order_by('-date')
     template_name = "django_cookie_app/order_list.html"
     filterset_class = filtersets.OrderFilter
+    context_object_name = "order_list"
+    paginate_by = 500
 
 
 class OrderDetailView(DetailView):
