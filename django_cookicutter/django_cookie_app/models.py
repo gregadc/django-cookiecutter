@@ -5,6 +5,7 @@ from django.core.files.storage import FileSystemStorage
 from django.contrib.auth import models as auth_models
 from django.db import models
 from django.urls import reverse
+from django.utils import timezone
 from django.utils.translation import ugettext_lazy as _
 from django.core.validators import MinValueValidator
 
@@ -15,7 +16,7 @@ GENDER_IDENTITY = (
     ('Man', _('Man')),
     ('Woman', _('Woman'))
 )
-fs = FileSystemStorage(location='/media/users')
+fs = FileSystemStorage(location='media/users/', base_url="/media/users")
 
 
 class CustomUser(auth_models.AbstractUser):
@@ -47,11 +48,16 @@ class CustomUser(auth_models.AbstractUser):
     def get_absolute_url(self):
         return reverse('user-detail-view', args=[self.id])
 
+    @property
+    def is_staff(self):
+        return self.is_superuser
+
 
 class BasePerfume(models.Model):
     """
         BasePerfume class
     """
+    #date = timezone.now()
     date = models.DateTimeField(verbose_name=_("Date"))
     total_ball = models.IntegerField(
         default=40,

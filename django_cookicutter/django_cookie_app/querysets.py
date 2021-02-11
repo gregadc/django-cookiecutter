@@ -1,7 +1,9 @@
 from datetime import datetime
+import pytz
 
 from django.db import models
 from django.contrib.auth.models import UserManager
+from django.utils import timezone
 
 from django_cookie_app import models as django_cookie_models
 
@@ -17,7 +19,12 @@ class BaseQueryset(models.QuerySet):
     """
         BaseQueryset class
     """
-    date = datetime.now().strftime("%Y-%m-%d %H:%M:%S")
+    #date = datetime.now().strftime("%Y-%m-%d %H:%M:%S")
+    paris = pytz.timezone("Europe/Paris").localize(datetime.now())
+    current_tz = timezone.get_current_timezone()
+    local = current_tz.normalize(paris.astimezone(current_tz))
+    #date = local.date()
+    date = timezone.localtime(timezone.now())
 
     def inspect(self, *args):
         """

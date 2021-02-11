@@ -1,5 +1,6 @@
 from django.http import JsonResponse
 
+from rest_framework import permissions
 from rest_framework.decorators import action
 from rest_framework.response import Response
 from rest_framework.viewsets import ModelViewSet
@@ -14,6 +15,10 @@ class OrderViewSet(ModelViewSet):
     """
     serializer_class = serializers.OrderSerializer
     queryset = models.Order.objects.all()
+    permission_classes = [
+        permissions.IsAuthenticatedOrReadOnly,
+        #permissions.IsAuthenticated,
+    ]
 
     @action(detail=False, methods=['post'])
     def inspect(self, request):
@@ -24,6 +29,12 @@ class OrderViewSet(ModelViewSet):
             order_id = models.Order.objects.inspect(dict(request.data))
             return JsonResponse(order_id)
         return Response({"message": "Hello, world!"})
+
+    def create(self, validated_data):
+        return models.Order.create(**validated_data)
+
+    def update(self, validated_data):
+        pass
 
 
 class ChocoOrangeViewSet(ModelViewSet):

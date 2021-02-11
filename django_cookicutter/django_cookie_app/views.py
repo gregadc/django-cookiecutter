@@ -2,6 +2,7 @@ from django.contrib.auth.mixins import LoginRequiredMixin
 from django.contrib.auth.views import LoginView, LogoutView
 from django.contrib import messages
 from django.contrib.messages.views import SuccessMessageMixin
+from django.core.paginator import Paginator
 from django.http import HttpResponseForbidden
 from django.shortcuts import render, redirect
 from django.urls import reverse_lazy as reverse
@@ -40,7 +41,6 @@ class HomeView(LoginRequiredMixin, FormMixin, View):
         if not request.user.is_authenticated:
             return HttpResponseForbidden()
         form = self.get_form()
-        #form = ChoicePerfumeForm(data=request.POST)
         if form.is_valid():
             return render(request, self.template_name, {'form': form})
         return render(request, self.template_name, {'form': form})
@@ -149,7 +149,7 @@ class OrderListView(ListView):
     template_name = "django_cookie_app/order_list.html"
     filterset_class = filtersets.OrderFilter
     context_object_name = "order_list"
-    paginate_by = 500
+    paginate_by = 10
 
 
 class OrderDetailView(DetailView):

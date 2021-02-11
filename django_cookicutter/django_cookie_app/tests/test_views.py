@@ -1,3 +1,4 @@
+from django.contrib.auth.models import User, AnonymousUser
 from django.test import Client
 from django.test import TestCase
 from django.urls import reverse
@@ -10,14 +11,22 @@ class ListViewTestMixin:
     """
         ListViewTestMixin class
     """
-    client = Client()
+    def SetUp(self):
+        self.client = Client()
+        self.user = User.objects.create_user(
+            username='jacob', email='jacob@…', password='top_secret')
 
     def test_user_get(self):
         """
-            test_user_get method
+            test_user_get
         """
         response = self.client.get(self.url)
         self.assertEqual(response.status_code, 200)
+
+    def test_anonymous_view(self):
+        response = self.client.get(self.url)
+        response.user = AnonymousUser()
+        self.view.setup(response)
 
 
 class HomeViewTest(ListViewTestMixin, TestCase):

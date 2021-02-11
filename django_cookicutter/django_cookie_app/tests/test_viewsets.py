@@ -1,3 +1,4 @@
+from django.contrib.auth.models import User
 from django.test import Client
 from django.urls import reverse
 from rest_framework.test import APITestCase
@@ -9,13 +10,16 @@ class ListViewsetsTestMixin:
     """
         ListViewsetsTestMixin
     """
-    client = Client()
+    def SetUp(self):
+        self.client = Client()
+        self.user = User.objects.create_user(
+            username='jacob', email='jacob@…', password='top_secret')
 
     def test_user_get(self):
         """
             test_user_get
         """
-        response = self.client.get(self.url)
+        response = self.client.get(self.url, HTTP_ACCEPT='application/json')
         self.assertEqual(response.status_code, 200)
 
 
