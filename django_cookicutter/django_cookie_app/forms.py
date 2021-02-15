@@ -1,4 +1,5 @@
 from django import forms
+from django.db import transaction
 from django.contrib.auth.forms import (
     UserCreationForm,
     AuthenticationForm,
@@ -7,26 +8,6 @@ from django.contrib.auth.forms import (
 from django.utils.translation import ugettext_lazy as _
 
 from django_cookie_app.models import CustomUser, GENDER_IDENTITY
-
-
-class SignUpForm(UserCreationForm):
-    first_name = forms.CharField(max_length=30, help_text='Required')
-    last_name = forms.CharField(max_length=30, help_text='Required')
-    email = forms.EmailField(
-        max_length=254,
-        help_text='Enter a valid email address'
-    )
-
-    class Meta:
-        model = CustomUser
-        fields = [
-            'username',
-            'first_name',
-            'last_name',
-            'email',
-            'password1',
-            'password2'
-        ]
 
 
 class LoginForm(AuthenticationForm):
@@ -56,7 +37,7 @@ class LoginForm(AuthenticationForm):
 
 
 class UserUpdateForm(forms.Form):
-    avatar = forms.FileField()
+    avatar = forms.ImageField()
     search = forms.CharField(label=_("Search"))
     username = forms.CharField(label=_("Username"))
     email = forms.EmailField(label=_("Email"))
@@ -66,14 +47,12 @@ class UserUpdateForm(forms.Form):
 
 
 class UserCreateForm(UserCreationForm):
-    avatar = forms.FileField()
+    avatar = forms.ImageField(required=False)
     password1 = forms.CharField(
-        label=_("Password1"),
         widget=forms.PasswordInput(
             attrs={
                 'autocomplete': 'new-password',
                 'class': 'form-control text-center',
-                'placeholder': 'Password1'
             }
         )
     )
@@ -83,7 +62,6 @@ class UserCreateForm(UserCreationForm):
             attrs={
                 'autocomplete': 'new-password',
                 'class': 'form-control text-center',
-                'placeholder': 'Password2'
             }
         )
     )
@@ -102,6 +80,12 @@ class UserCreateForm(UserCreationForm):
         'sex',
         'search',
         'avatar']
+
+    @transaction.atomic
+    def save(self, commit=False):
+        user = super().save(commit=False)
+        user.save()
+        return user
 
 
 class ChoicePerfumeForm(forms.Form):

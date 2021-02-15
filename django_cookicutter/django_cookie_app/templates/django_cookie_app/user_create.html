@@ -10,7 +10,6 @@
     {% for field in form %}
         <div class="form-group">
             <label class="col control-label" for="{{ field.id_for_label }}">{{ field.label }}</label>
-            <div class="col">
                 {{ field }}
                 {% if field.help_text %}
                     <p><em>{{ field.help_text }}</em></p>
@@ -22,7 +21,6 @@
                     {% endfor %}
                     </div>
                 {% endif %}
-            </div>
         </div>
     {% endfor %}
 

@@ -13,7 +13,6 @@ from django.views.generic.detail import DetailView
 from django.views.generic.edit import UpdateView, FormMixin
 
 from django_cookie_app.forms import (
-    SignUpForm,
     LoginForm,
     UserUpdateForm,
     UserCreateForm,
@@ -81,6 +80,13 @@ class UserCreateView(CreateView):
 class LoginCookieView(SuccessMessageMixin, LoginView):
     form_class = LoginForm
     success_message = "%(username)s connected."
+
+    def get_success_message(self, cleaned_data):
+        username = cleaned_data['username'].capitalize()
+        return self.success_message % dict(
+            cleaned_data,
+            username=username,
+        )
 
 
 class IceCreamListView(ListView):
@@ -168,4 +174,3 @@ class OrderDetailView(DetailView):
             "model": self.model
         })
         return context
-

@@ -48,10 +48,6 @@ class CustomUser(auth_models.AbstractUser):
     def get_absolute_url(self):
         return reverse('user-detail-view', args=[self.id])
 
-    @property
-    def is_staff(self):
-        return self.is_superuser
-
 
 class BasePerfume(models.Model):
     """
@@ -84,8 +80,6 @@ class ChocoOrange(BasePerfume):
     """
         ChocoOrange class
     """
-    # verbose en general pour les foreign, manytomany etc, et pas la peine de mettre first letter en maj
-    # car django le fait deja
     perfume = models.CharField(
         max_length=35,
         default="choc-oran",
