@@ -63,7 +63,9 @@ class OrderSerializer(serializers.HyperlinkedModelSerializer):
     """
         OrderSerializer
     """
-    url = serializers.HyperlinkedIdentityField(view_name="rest:order-detail")
+    url = serializers.HyperlinkedIdentityField(
+        view_name="rest:order-detail",
+        read_only=True,)
     choco_oran = ChocoOrangeSerializer()
     mint_choco = MintChocoSerializer()
     syrup = SyrupSerializer()

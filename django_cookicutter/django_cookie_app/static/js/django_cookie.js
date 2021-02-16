@@ -22,16 +22,17 @@ $(document).ready(function(){
     quantity_func(".raspberry-plus", ".raspberry-minus", "#id_raspberry");
     quantity_func(".choco-plus", ".choco-minus", "#id_choco");
 
-   
     $(".ajax_form").submit(function(event){
-	event.preventDefault();
-	var request_method = $(this).attr("method"); 
-	var form_data = $(this).serialize();
-	$.ajax({
-            url : 'http://10.211.55.7:8000/rest/order/inspect/',
+        event.preventDefault();
+        var request_method = $(this).attr("method");
+        var form_data = $(this).serialize();
+        $.ajax({
+            url: 'http://10.211.55.7:8000/rest/order/inspect/',
             type: request_method,
-            contentType: "application/json",
             data : form_data,
+            beforeSend: function (xhr, settings) {
+		xhr.setRequestHeader("X-CSRFToken", '{{ csrf_token }}');
+            },
             success: function (data) {
 		data = JSON.parse(JSON.stringify(data));
                 if (data.id !== null){
@@ -41,13 +42,11 @@ $(document).ready(function(){
                     alert('Reload '+data.name+' in stock!')
                 }
             },
-            error: function() {
-                alert("Désolé, aucun résultat trouvé.");
+            error: function(error) {
+                alert("Désolé, aucun résultat trouvé.", error);
             }
-
 	});
     });
-
 
     $("#button-action").click(function(event){
 	event.preventDefault();
@@ -64,10 +63,8 @@ $(document).ready(function(){
                 location.reload();
             },
             error: function() {
-                alert("Reloaded.");
+                alert("T'as tout cassé.");
             }
 	});
     });
-
 });
-

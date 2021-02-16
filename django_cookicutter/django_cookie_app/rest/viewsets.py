@@ -1,15 +1,17 @@
 from django.http import JsonResponse
 
+from django_filters.rest_framework import DjangoFilterBackend
 from rest_framework import permissions
 from rest_framework.decorators import action
 from rest_framework.response import Response
-from rest_framework.viewsets import ModelViewSet, ViewSetMixin
+from rest_framework.viewsets import ModelViewSet
 
 from django_cookie_app import models
 from django_cookie_app.rest import serializers
+from django_cookie_app import filtersets
 
 
-class MyViewSetMixin(ViewSetMixin):
+class MyViewSetMixin:
     def get_permissions(self):
         if self.action == 'list':
             self.permission_classes.append(
@@ -32,10 +34,12 @@ class OrderViewSet(MyViewSetMixin, ModelViewSet):
         'vanilla',
         'raspberry').all()
     permission_classes = []
+    filterset_class = filtersets.OrderFilter
+    filter_backends = (DjangoFilterBackend,)
 
     @action(
         detail=False,
-        methods=['post'],
+        methods=['post', 'get'],
         permission_classes=[permissions.IsAuthenticatedOrReadOnly])
     def inspect(self, request, pk=None):
         """
@@ -44,7 +48,7 @@ class OrderViewSet(MyViewSetMixin, ModelViewSet):
         if request.method == 'POST':
             order_id = models.Order.objects.inspect(dict(request.data))
             return JsonResponse(order_id)
-        return Response({"message": "Hello, world!"})
+        return Response({"user": request.user})
 
 
 class ChocoOrangeViewSet(MyViewSetMixin, ModelViewSet):
@@ -65,7 +69,7 @@ class ChocoOrangeViewSet(MyViewSetMixin, ModelViewSet):
         if request.method == 'POST':
             order_id = models.ChocoOrange.objects.update_last()
             return JsonResponse(order_id)
-        return Response({"message": "Hello, world!"})
+        return Response({"user": request.user})
 
 
 class MintChocoViewSet(MyViewSetMixin, ModelViewSet):
@@ -86,7 +90,7 @@ class MintChocoViewSet(MyViewSetMixin, ModelViewSet):
         if request.method == 'POST':
             order_id = models.MintChoco.objects.update_last()
             return JsonResponse(order_id)
-        return Response({"message": "Hello, world!"})
+        return Response({"user": request.user})
 
 
 class SyrupViewSet(MyViewSetMixin, ModelViewSet):
@@ -107,7 +111,7 @@ class SyrupViewSet(MyViewSetMixin, ModelViewSet):
         if request.method == 'POST':
             order_id = models.Syrup.objects.update_last()
             return JsonResponse(order_id)
-        return Response({"message": "Hello, world!"})
+        return Response({"user": request.user})
 
 
 class VanillaStrawberryChocolateViewSet(MyViewSetMixin, ModelViewSet):
@@ -128,7 +132,7 @@ class VanillaStrawberryChocolateViewSet(MyViewSetMixin, ModelViewSet):
         if request.method == 'POST':
             order_id = models.VanillaStrawberryChocolate.objects.update_last()
             return JsonResponse(order_id)
-        return Response({"message": "Hello, world!"})
+        return Response({"user": request.user})
 
 
 class RaspberryWhiteChocolateViewSet(MyViewSetMixin, ModelViewSet):
@@ -149,4 +153,4 @@ class RaspberryWhiteChocolateViewSet(MyViewSetMixin, ModelViewSet):
         if request.method == 'POST':
             order_id = models.RaspberryWhiteChocolate.objects.update_last()
             return JsonResponse(order_id)
-        return Response({"message": "Hello, world!"})
+        return Response({"user": request.user})
