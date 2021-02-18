@@ -25,6 +25,7 @@
 
 	     </li> 
            </ul>
+           <div class="mr-1" style="color:white;">It is [{% now "jS F Y H:i" %}]</div>
 	   <div class="btn-group">
 	     <button type="button" class="btn btn-primary dropdown-toggle mr-1" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
                  {% if user.is_authenticated %}Hello, {{ user.username | capfirst }}.{% endif %}
