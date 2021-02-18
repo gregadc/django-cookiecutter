@@ -12,6 +12,8 @@ https://docs.djangoproject.com/en/3.1/ref/settings/
 import os
 from pathlib import Path
 
+from django.utils.log import DEFAULT_LOGGING as LOGGING
+
 # Build paths inside the project like this: BASE_DIR / 'subdir'.
 BASE_DIR = Path(__file__).resolve().parent.parent
 
@@ -29,6 +31,57 @@ ALLOWED_HOSTS = ["*"]
 LOGIN_REDIRECT_URL = '/'
 LOGOUT_REDIRECT_URL = '/'
 LOGIN_URL = '/login'
+EMAIL_BACKEND = 'django.core.mail.backends.smtp.EmailBackend'
+
+# LOGGING configuration
+
+LOGGING['formatters'].update({
+    'default.formatter': {
+        '()': 'logging.Formatter',
+        'format': '[%(asctime)s] %(levelname)s [%(message)s]',
+    }
+})
+LOGGING['handlers'].update({
+    'mail_admins': {
+        'level': 'ERROR',
+        'class': 'django.utils.log.AdminEmailHandler',
+        'include_html': True,
+        'email_backend': EMAIL_BACKEND,
+        'filters': ['require_debug_false'],
+    },
+    'admin_console': {
+        'level': 'INFO',
+        'class': 'logging.StreamHandler',
+        'filters': ['require_debug_false'],
+        'formatter': 'default.formatter',
+    },
+    'console': {
+        'level': 'DEBUG',
+        'class': 'logging.StreamHandler',
+        'filters': ['require_debug_true'],
+        'formatter': 'default.formatter',
+    },
+})
+LOGGING['loggers'].update({
+    'player': {
+        'handlers': ['console', 'admin_console'],
+        'level': 'INFO',
+    },
+    'django.db.backends': {
+        'handlers': ['console'],
+        'level': 'INFO',
+    },
+    'django-cookie-queryset': {
+        'handlers': ['console'],
+        'level': 'INFO',
+    },
+    'dbcron': {
+        'handlers': ['console', 'mail_admins'],
+        'level': 'DEBUG',
+    },
+})
+if DEBUG:
+    LOGGING['handlers']['console']['level'] = 'DEBUG'
 
 # Application definition
 

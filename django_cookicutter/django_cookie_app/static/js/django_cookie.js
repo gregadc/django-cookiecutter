@@ -54,15 +54,13 @@ $(document).ready(function(){
         var url = 'http://10.211.55.7:8000/rest/'+order+'/update_bucket/'
 	$.ajax({
             url : url,
-            type: 'POST',
+            type: 'GET',
             contentType: "application/json",
             data : {'order': order},
-            success: function (data) {
-		data = JSON.parse(JSON.stringify(data));
-                console.log(data)
+            success: function () {
                 location.reload();
             },
-            error: function() {
+            error: function(){
                 alert("T'as tout cassé.");
             }
 	});

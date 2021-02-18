@@ -60,13 +60,13 @@ class ChocoOrangeViewSet(MyViewSetMixin, ModelViewSet):
 
     @action(
         detail=False,
-        methods=['post'],
+        methods=['get'],
         permission_classes=[permissions.IsAuthenticatedOrReadOnly])
     def update_bucket(self, request, pk=None):
         """
             update_bucket
         """
-        if request.method == 'POST':
+        if request.method == 'GET':
             order_id = models.ChocoOrange.objects.update_last()
             return JsonResponse(order_id)
         return Response({"user": request.user})
@@ -81,13 +81,13 @@ class MintChocoViewSet(MyViewSetMixin, ModelViewSet):
 
     @action(
         detail=False,
-        methods=['post'],
+        methods=['get'],
         permission_classes=[permissions.IsAuthenticatedOrReadOnly])
     def update_bucket(self, request, pk=None):
         """
             update_bucket
         """
-        if request.method == 'POST':
+        if request.method == 'GET':
             order_id = models.MintChoco.objects.update_last()
             return JsonResponse(order_id)
         return Response({"user": request.user})
@@ -102,13 +102,13 @@ class SyrupViewSet(MyViewSetMixin, ModelViewSet):
 
     @action(
         detail=False,
-        methods=['post'],
+        methods=['get'],
         permission_classes=[permissions.IsAuthenticatedOrReadOnly])
     def update_bucket(self, request, pk=None):
         """
             update_bucket
         """
-        if request.method == 'POST':
+        if request.method == 'GET':
             order_id = models.Syrup.objects.update_last()
             return JsonResponse(order_id)
         return Response({"user": request.user})
@@ -123,13 +123,13 @@ class VanillaStrawberryChocolateViewSet(MyViewSetMixin, ModelViewSet):
 
     @action(
         detail=False,
-        methods=['post'],
+        methods=['get'],
         permission_classes=[permissions.IsAuthenticatedOrReadOnly])
     def update_bucket(self, request, pk=None):
         """
             update_bucket
         """
-        if request.method == 'POST':
+        if request.method == 'GET':
             order_id = models.VanillaStrawberryChocolate.objects.update_last()
             return JsonResponse(order_id)
         return Response({"user": request.user})
@@ -144,13 +144,13 @@ class RaspberryWhiteChocolateViewSet(MyViewSetMixin, ModelViewSet):
 
     @action(
         detail=False,
-        methods=['post'],
+        methods=['get'],
         permission_classes=[permissions.IsAuthenticatedOrReadOnly])
     def update_bucket(self, request, pk=None):
         """
             update_bucket"
         """
-        if request.method == 'POST':
+        if request.method == 'GET':
             order_id = models.RaspberryWhiteChocolate.objects.update_last()
             return JsonResponse(order_id)
         return Response({"user": request.user})

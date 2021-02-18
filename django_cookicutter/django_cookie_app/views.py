@@ -31,7 +31,7 @@ class HomeView(LoginRequiredMixin, FormMixin, View):
     model = models.Order
 
     def get_success_url(self):
-        return reverse('order-detail-view', args=[self.pk])
+        return reverse('order-detail-view', kwargs={'pk': self.pk})
 
     def get(self, request, *args, **kwargs):
         """

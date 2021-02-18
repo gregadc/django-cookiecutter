@@ -1,4 +1,5 @@
 from datetime import datetime
+import logging
 import pytz
 
 from django.db import models
@@ -6,6 +7,8 @@ from django.contrib.auth.models import UserManager
 from django.utils import timezone
 
 from django_cookie_app import models as django_cookie_models
+
+logger = logging.getLogger('django-cookie-queryset')
 
 
 class UserCookieManager(UserManager):
@@ -49,6 +52,7 @@ class BaseQueryset(models.QuerySet):
             number_time_fill=number_time_fill,
             percentage=choco_balls,
             total_ball=choco_balls)
+        logger.info("Bucket created %s", bucket)
         return bucket
 
     def update_last(self):
@@ -158,4 +162,5 @@ class OrderQueryset(models.QuerySet):
             vanilla=vanilla,
             syrup=syrup,
             raspberry=raspberry)
+        logger.info("Order created %s", order)
         return {'id': order.id}
