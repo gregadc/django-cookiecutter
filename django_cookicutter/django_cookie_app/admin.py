@@ -11,5 +11,9 @@ class CustomUserAdmin(admin.ModelAdmin):
 
 @admin.register(models.Order)
 class OrderAdmin(admin.ModelAdmin):
-    pass
-
+    list_display = [
+        'code',
+        'date',
+        'price',
+    ]
+    list_filter = ('date',)

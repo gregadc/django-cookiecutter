@@ -41,12 +41,15 @@ class CustomUser(auth_models.AbstractUser):
 
     class Meta:
         app_label = 'django_cookie_app'
+        default_related_name = "%(app_label)s_%(model_name)s"
+        verbose_name = _("Custom user")
+        verbose_name_plural = _("Custom users")
 
     def ___str__(self):
         return self.username
 
     def get_absolute_url(self):
-        return reverse('user-detail-view', args=[self.id])
+        return reverse('user-detail-view', kwargs={'pk': self.pk})
 
 
 class BasePerfume(models.Model):
@@ -88,7 +91,8 @@ class ChocoOrange(BasePerfume):
 
     class Meta:
         app_label = "django_cookie_app"
-        verbose_name = "{} ice cream.".format(_("Chocolat-Orange"))
+        verbose_name = _("Chocolat-Orange")
+        default_related_name = "%(app_label)s_%(model_name)s"
 
     def __str__(self):
         return "{} ice cream.".format(self.perfume)
@@ -108,7 +112,8 @@ class MintChoco(BasePerfume):
 
     class Meta:
         app_label = "django_cookie_app"
-        verbose_name = "{} ice cream.".format(_("Mint-Choco"))
+        verbose_name = _("Mint-Choco")
+        default_related_name = "%(app_label)s_%(model_name)s"
 
     def __str__(self):
         return "{} ice cream.".format(self.perfume)
@@ -128,7 +133,8 @@ class Syrup(BasePerfume):
 
     class Meta:
         app_label = "django_cookie_app"
-        verbose_name = "{} ice cream.".format(_("Maple-syrup"))
+        verbose_name = _("Mapple-syrup")
+        default_related_name = "%(app_label)s_%(model_name)s"
 
     def __str__(self):
         return "{} ice cream.".format(self.perfume)
@@ -148,7 +154,8 @@ class VanillaStrawberryChocolate(BasePerfume):
 
     class Meta:
         app_label = "django_cookie_app"
-        verbose_name = "{} ice cream.".format(_("Vanilla-Strawberry-Chocolate"))
+        verbose_name = _("Vanilla-Strawberry-Chocolate")
+        default_related_name = "%(app_label)s_%(model_name)s"
 
     def __str__(self):
         return "{} ice cream.".format(self.perfume)
@@ -168,7 +175,8 @@ class RaspberryWhiteChocolate(BasePerfume):
 
     class Meta:
         app_label = "django_cookie_app"
-        verbose_name = "{} ice cream.".format(_("Raspberry-white-chocolate"))
+        verbose_name = _("Raspberry-white-chocolate")
+        default_related_name = "%(app_label)s_%(model_name)s"
 
     def __str__(self):
         return "{} ice cream.".format(self.perfume)
@@ -228,6 +236,12 @@ class Order(models.Model):
 
     objects = querysets.OrderQueryset.as_manager()
 
+    class Meta:
+        app_label = "django_cookie_app"
+        verbose_name = _("Order ice-cream")
+        verbose_name_plural = _("Orders ice-cream")
+        default_related_name = "%(app_label)s_%(model_name)s"
+
     def __str__(self):
         return self.code
 
@@ -235,4 +249,4 @@ class Order(models.Model):
         """
             get_absolute_url method
         """
-        return reverse('order-detail-view', args=[self.pk])
+        return reverse('order-detail-view', kwargs={'pk': self.pk})

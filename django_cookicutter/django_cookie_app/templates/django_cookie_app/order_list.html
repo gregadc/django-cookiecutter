@@ -1,5 +1,8 @@
 {% extends "base.html" %}
+
 {% load i18n static %}
+{% load humanize %}
+
 
 {% block content %}
 
@@ -16,8 +19,8 @@
   <tbody>
     {% for order in order_list %}
     	<tr>
-            <th scope="row">{{ order.date }}</th>
-            <td><a href="{% url "order-detail-view" order.id %}">{{ order.code }}</a></td>
+            <th scope="row">{{ order.date | naturaltime }}</th>
+            <td><a href="{{ order.get_absolute_url }}">{{ order.code }}</a></td>
             <td>{{ order.price}}</td>
             <td>{{ order.count_ball }}</td>
         </tr>

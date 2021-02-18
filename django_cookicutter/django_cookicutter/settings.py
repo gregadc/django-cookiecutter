@@ -42,8 +42,11 @@ INSTALLED_APPS = [
     'rest_framework',
     'django_cookie_app',
     'django_filters',
+    'django.contrib.humanize',
+    'django.contrib.sites',
 ]
 
+SITE_ID = 1
 AUTH_USER_MODEL = 'django_cookie_app.CustomUser'
 
 MIDDLEWARE = [
