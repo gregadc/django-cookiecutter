@@ -9,6 +9,7 @@
 	     <li class="nav-item active">
           	<a class="nav-link" href="{% url "order-list-view" %}">Orders<span class="sr-only">(current)</span></a>
              </li>
+             <li>
                <div class="btn-group">
                  <button type="button" class="btn btn-secondary dropdown-toggle mr-1" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
                      stock
@@ -21,11 +22,13 @@
                     <a class="dropdown-item" href="{% url "rasp-whit-choc-view" %}"> Raspberry white chocolate</a>
                  </div>
                </div>
-	     <li>
-
-	     </li> 
+	     </li>
            </ul>
-           <div class="mr-1" style="color:white;">It is [{% now "jS F Y H:i" %}]</div>
+	   <form class="form-inline mt-2 mt-md-0 mr-4">
+            <input class="form-control mr-sm-2" type="text" placeholder="Search" aria-label="Search">
+            <button class="btn btn-outline-success my-2 my-sm-0" type="submit">Search</button>
+          </form>
+                 <div class="mr-3" style="color:white;">Date : [{% now "j F Y H:i" %}]</div>
 	   <div class="btn-group">
 	     <button type="button" class="btn btn-primary dropdown-toggle mr-1" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
                  {% if user.is_authenticated %}Hello, {{ user.username | capfirst }}.{% endif %}
@@ -33,10 +36,9 @@
 	     <div class="dropdown-menu">
                  <a class="dropdown-item" href="{% url "user-detail-view" user.id %}">user informations</a>
                  <!--<a class="dropdown-item" href="{{ object.get_absolute_url }}">user informations</a>-->
+           	 <a href="{% url "logout" %}" class="dropdown-item">Logout</a>
 	     </div>
 	   </div>
-
-           <a href="{% url "logout" %}" class="btn btn-outline-success my-2 my-sm-0">Logout</a>
         </div>
       </nav>
 </header>

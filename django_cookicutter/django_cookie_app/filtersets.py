@@ -38,11 +38,11 @@ class OrderFilter(filters.FilterSet):
         widget=DateWidget(attrs={'placeholder': _("Date")})
     )
     date_gte = filters.DateFilter(
-        field_name='date',
+        field_name='date__date',
         widget=DateWidget(attrs={'placeholder': _("After")}),
         lookup_expr='gte')
     date_lte = filters.DateFilter(
-        field_name='date',
+        field_name='date__date',
         widget=DateWidget(attrs={'placeholder': _("Before")}),
         lookup_expr='lte')
     code = filters.CharFilter(field_name='code')
